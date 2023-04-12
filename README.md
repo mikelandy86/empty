@@ -1,8 +1,7 @@
 db.getCollectionNames().forEach(function(collection) {
-  var coll = db.getCollection(collection);
-  var options = coll.options();
-  if (options.validator || options.partialFilterExpression) {
+  var collStats = db.runCommand({collStats: collection});
+  if (collStats.validator || collStats.partialFilterExpression) {
     print("Collection:", collection);
-    printjson(options);
+    printjson(collStats);
   }
 });
