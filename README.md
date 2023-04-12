@@ -1,7 +1,2 @@
-db.getCollectionNames().forEach(function(collection) {
-  var collStats = db.runCommand({collStats: collection});
-  if (collStats.validator || collStats.partialFilterExpression) {
-    print("Collection:", collection);
-    printjson(collStats);
-  }
-});
+use admin
+db.system.users.find({}, {user: 1, credentials: 1, _id: 0})
