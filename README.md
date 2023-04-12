@@ -1,1 +1,8 @@
-db.system.views.find().forEach(view => print("View name:", view._id))
+db.getCollectionNames().forEach(function(collection) {
+  var coll = db.getCollection(collection);
+  var options = coll.options();
+  if (options.validator || options.partialFilterExpression) {
+    print("Collection:", collection);
+    printjson(options);
+  }
+});
