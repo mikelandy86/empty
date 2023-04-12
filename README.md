@@ -1,6 +1,1 @@
-db.getCollectionNames().forEach(function(collection) {
-    var coll = db.getCollection(collection);
-    if (coll.isView()) {
-        print("View name: " + coll.getName());
-    }
-});
+db.system.views.find().forEach(view => print("View name:", view._id))
