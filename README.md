@@ -1,36 +1,90 @@
-För att kontrollera om du har ett befintligt partiellt index som inkluderar $isolated i din MongoDB, kan du följa dessa steg:
+Lösenordskydda MongoDB
+======================
 
-Öppna MongoDB Shell eller använd ett GUI-verktyg som MongoDB Compass eller Robo 3T.
+En steg-för-steg guide för att lösenordskydda MongoDB-databasen och kryptera "appSettings" i web.config-filen på Modern Requirements Service-webbplatsen.
 
-Anslut till din databas genom att köra följande kommando i MongoDB Shell:
+Steg 1: Stoppa MongoDB-servern
+------------------------------
 
-perlCopy code
+*   Öppna "cmd"-fönstret som administratör.
+*   Stoppa MongoDB-servern genom att skriva "mongod --shutdown".
 
-use <databasnamn> 
+Steg 2: Skapa en användaradministratör
+--------------------------------------
 
-Byt ut <databasnamn> med namnet på din databas.
+*   Öppna en "cmd"-fönster som administratör och kör kommandot "mongod-dbpath="C:\\Program Files\\MongoDB\\db"".
+    
+*   Öppna en annan "cmd"-fönster som administratör och kör kommandot "mongo".
+    
+*   Skapa en användaradministratör med följande kommando:
+    
+    phpCopy code
+    
+    `db.createUser({   user: "användarnamn",   pwd: "lösenord",   roles: [{role: 'root', db: "admin"}] });`
+    
 
-Kör följande kommando för att lista alla samlingar i din databas:
+Steg 3: Lägg till säkerhetskonfiguration
+----------------------------------------
 
-sqlCopy code
+*   Öppna "mongod.cfg"-filen (C:\\Program Files\\MongoDB\\Server\\3.4).
+    
+*   Lägg till följande information:
+    
+    yamlCopy code
+    
+    `net:   bindip: localhost   port:27017   systemLog:     destination: file     path: C:\Program Files\MongoDB\log\mongod.log   storage:     dbPath: C:\Program Files\MongoDB\db   security:     authorization: enabled`
+    
 
-show collections 
+Steg 4: Starta MongoDB-tjänsten
+-------------------------------
 
-För varje samling, kör följande kommando för att visa information om index:
+*   Starta MongoDB-tjänsten genom att öppna "cmd"-fönstret som administratör och skriva "mongod".
 
-phpCopy code
+Steg 5: Ställ in anslutningsinformationen i web.config-filen
+------------------------------------------------------------
 
-db.<samling>.getIndexes() 
+*   Öppna "web.config"-filen på Modern Requirements Service-webbplatsen (C:\\Program Files\\Modern Requirements Service) som administratör.
+    
+*   Ställ in anslutningsinformationen med följande format:
+    
+    csharpCopy code
+    
+    `<add key="MongoDB.ConnectionString" value="mongodb://användarnamn:lösenord@localhost:27017"/>`
+    
 
-Byt ut <samling> med namnet på din samling.
+Steg 6: Kryptera "appSettings" i web.config
+-------------------------------------------
 
-Granska indexinformationen för varje samling och leta efter eventuella index där "partialFilterExpression" innehåller $isolated.
+*   Öppna "Command Prompt" som administratör.
+    
+*   Gå till C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319.
+    
+*   Kör följande kommando för att kryptera "appSettings" i "web.config":
+    
+    arduinoCopy code
+    
+    `ASPNET_REGIIS -pef "appSettings" "C:\Program Files\Modern Requirements\Service"`
+    
+*   Öppna "web.config"-filen och kontrollera att "appSettings" är krypterad.
+    
 
-Om du hittar ett partiellt index som inkluderar $isolated-operatören, kan du ta bort det och återskapa indexet utan $isolated-operatören. För att ta bort ett index, använd följande kommando:
+Steg 7: Testa Modern Requirements filerna i ADO
+-----------------------------------------------
 
-phpCopy code
+*   Testa Modern Requirements-filerna i ADO.
 
-db.<samling>.dropIndex(<indexnamn>) 
+Steg 8: Dekryptera "appSettings"
+--------------------------------
 
-Byt ut <samling> med namnet på din samling och <indexnamn> med namnet på indexet du vill ta bort. För att återskapa indexet utan $isolated-operatören, använd db.<samling>.createIndex() med de lämpliga indexparametrarna och utan att inkludera $isolated i partialFilterExpression.
+*   Öppna "Command Prompt" som administratör.
+    
+*   Gå till C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319.
+    
+*   Kör följande kommando för att dekryptera "appSettings":
+    
+    arduinoCopy code
+    
+    `ASPNET_REGIIS -pdf "appSettings" "C:\Program Files\Modern Requirements\Service"`
+    
 
+Genom att följa dessa steg kan du
