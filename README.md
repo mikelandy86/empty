@@ -1,3 +1,6 @@
+Liksom vid uppgradering av MongoDB krävs det att man utför en stegvis process mellan olika versionsserier när man nedgraderar. Innan nedgraderingen påbörjas kan det vara lämpligt att avaktivera autentiseringen i version 4.0 för att underlätta processen, eftersom autentiseringsmekanismen ändras från 4.0 till 3.6. Det är också viktigt att säkerställa att alla databaser och applikationer som är beroende av MongoDB är kompatibla med den nedgraderade versionen. Genom att noggrant testa kan oönskade problem undvikas, och det rekommenderas att skapa säkerhetskopior för varje nedgraderingssteg. På så sätt garanteras en backup baserad på respektive version, vilket minimerar riskerna.
+
+
 För att ta bort autentiseringen och förbereda för nedgradering av MongoDB, följ dessa steg:
 
 1. Öppna MongoDB Shell genom att öppna cmd som administratör och skriv `mongo`.
