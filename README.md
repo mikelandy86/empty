@@ -1,6 +1,6 @@
 # MongoDB Kommandon och Instruktioner
 
-Detta dokument innehåller MongoDB-kommandon och instruktioner för att använda i mongo shell och fungerar med MongoDB version 5.0.
+MongoDB är installerat på serverna TF12 och TF13 och fungerar som databasen för MR4DevOps. När du använder MongoDB och dess kommandon rekommenderas det att starta kommandotolken med administratörsrättigheter. Detta dokument innehåller MongoDB-kommandon och instruktioner för att använda i mongo shell och fungerar med MongoDB version 5.0.
 
 ## Starta MongoDB-Shell CMD
 
