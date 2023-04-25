@@ -139,3 +139,12 @@ use <database_name>
 ```
 
 *Beskrivning*: Byter till den angivna databasen eller skapar en ny om den inte finns.
+
+## 33. Visa användare i databas
+
+```javascript
+use <database_name>
+db.getUsers()
+```
+
+*Beskrivning*: Visar en lista över användare i den angivna databasen. Se till att byta till rätt databas med `use <database_name>` innan du kör `db.getUsers()`.
