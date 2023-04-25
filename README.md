@@ -1,43 +1,85 @@
-const invalidCharRegex = /^[\x1F]/;
+# MongoDB Kommandon och Instruktioner
 
-// Get a list of all collections in the database
-const collectionNames = db.getCollectionNames();
+Detta dokument innehåller MongoDB-kommandon och instruktioner för att använda i mongo shell och fungerar med MongoDB version 5.0.
 
-// Function to check if a value looks like XML content
-const isXmlContent = (value) => typeof value === "string" && value.startsWith("<") && value.endsWith(">");
+## Starta MongoDB-Shell CMD
 
-// Function to recursively search for XML content in an object
-const searchXmlContentInObject = (obj, path = []) => {
-  for (const key in obj) {
-    if (isXmlContent(obj[key])) {
-      if (invalidCharRegex.test(obj[key])) {
-        return { fieldName: [...path, key].join('.'), content: obj[key] };
-      }
-    } else if (typeof obj[key] === "object") {
-      const result = searchXmlContentInObject(obj[key], [...path, key]);
-      if (result) {
-        return result;
-      }
-    }
-  }
-  return null;
-};
+```
+mongo
+```
 
-// Iterate over each collection and find documents with the invalid character
-collectionNames.forEach((collectionName) => {
-  print(`Checking collection: ${collectionName}`);
+*Beskrivning*: Öppnar mongo shell.
 
-  const cursor = db[collectionName].find({});
+## Kolla MongoDB-Version
 
-  while (cursor.hasNext()) {
-    const doc = cursor.next();
-    const result = searchXmlContentInObject(doc);
+```
+mongod --version
+```
 
-    if (result) {
-      print(`Found invalid document in '${collectionName}':`);
-      printjson({ _id: doc._id, fieldName: result.fieldName, content: result.content });
-    }
-  }
+*Beskrivning*: Visar den installerade versionen av MongoDB.
 
-  print("\n");
-});
+## Kolla vilka databaser som finns
+
+```
+mongo
+use admin
+show dbs
+```
+
+*Beskrivning*: Visar en lista över tillgängliga databaser på servern.
+
+## Kolla vilka användare som är skapade
+
+```
+mongo
+db.getUsers()
+```
+
+*Beskrivning*: Visar en lista över alla användare i databasen.
+
+## Kontrollera CompatibilityVersion
+
+```
+mongo
+db.adminCommand({ getParameter: 1, featureCompatibilityVersion: 1 })
+```
+
+*Beskrivning*: Visar nuvarande kompatibilitetsversion för MongoDB.
+
+## Ändra CompatibilityVersion
+
+```
+mongo
+use admin
+db.adminCommand({ setFeatureCompatibilityVersion: "Versionsnumret" })
+```
+
+*Exempel*: `db.adminCommand({ setFeatureCompatibilityVersion: "4.0" })`
+
+*Beskrivning*: Ändrar kompatibilitetsversionen för MongoDB till det angivna versionsnumret.
+
+## Logga in med autentisering
+
+```
+mongo
+use admin
+db.auth("adminTfs13", "Lösenordet")
+```
+
+*Beskrivning*: Loggar in med den angivna användaren och lösenordet.
+
+## Stoppa MongoDB Server
+
+```
+Öppna MongoShell och skriv: db.adminCommand({ shutdown: 1 })
+```
+
+*Beskrivning*: Stänger av MongoDB-servern.
+
+## Skapa användare med root-behörighet
+
+```
+db.createUser({user: "användarnamn", pwd: "Lösenord", roles: [{role: "root", db: "admin"}]})
+```
+
+*Beskrivning*: Skapar en ny användare med root-behörighet för databasen "admin".
