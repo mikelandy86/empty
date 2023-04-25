@@ -83,3 +83,59 @@ db.createUser({user: "användarnamn", pwd: "Lösenord", roles: [{role: "root", d
 ```
 
 *Beskrivning*: Skapar en ny användare med root-behörighet för databasen "admin".
+
+## 26. Avsluta mongo shell
+
+```
+exit
+```
+
+*Beskrivning*: Avslutar mongo shell och återgår till kommandotolken.
+
+## 27. Hjälp
+
+```
+help
+```
+
+*Beskrivning*: Visar en lista över tillgängliga kommandon och deras beskrivningar i mongo shell.
+
+## 28. Visa nuvarande databas
+
+```javascript
+db
+```
+
+*Beskrivning*: Visar namnet på den aktuella databasen som du arbetar med i mongo shell.
+
+## 29. Skapa och lägga till ett dokument samtidigt
+
+```javascript
+db.<collection_name>.insert({field1: "value1", field2: "value2"})
+```
+
+*Beskrivning*: Om samlingen inte finns, skapar den angivna samlingen och lägger till ett nytt dokument i den.
+
+## 30. Uppdatera flera dokument samtidigt
+
+```javascript
+db.<collection_name>.updateMany({field1: "value1"}, {$set: {field2: "new_value2"}})
+```
+
+*Beskrivning*: Uppdaterar alla dokument som matchar sökkriteriet med de angivna värdena.
+
+## 31. Ta bort flera dokument samtidigt
+
+```javascript
+db.<collection_name>.deleteMany({field1: "value1"})
+```
+
+*Beskrivning*: Tar bort alla dokument som matchar det angivna sökkriteriet.
+
+## 32. Byta databas
+
+```javascript
+use <database_name>
+```
+
+*Beskrivning*: Byter till den angivna databasen eller skapar en ny om den inte finns.
